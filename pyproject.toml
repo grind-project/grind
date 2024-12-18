@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "grind"
+version = "0.1.0"
+description = "grind est une plateforme de diffusion de connaissances"
+authors = ["grind4635 <grind4635@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "^1.0.1"
+django = "^5.1.4"
+psycopg = {extras = ["binary"], version = "^3.2.3"}
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-django = "^4.9.0"
+pytest-cov = "^6.0.0"
+ruff = "^0.8.3"
+mypy = "^1.13.0"
+django-stubs = "^5.1.1"
+pre-commit = "^4.0.1"
+
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+
+[tool.django-stubs]
+django_settings_module = "grind.settings"
+
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "DJ", "RUF"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
