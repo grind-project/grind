@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ cours.matiere }} - {{ cours.niveau }}</title>
+</head>
+<body>
+    <h1>{{ cours.matiere }} - {{ cours.niveau }}</h1>
+    <div class="cours-content">
+        <iframe 
+            src="{{ cours.url_gitbook }}"
+            width="100%" 
+            height="800px"
+            frameborder="0">
+        </iframe>
+    </div>
+    <a href="{% url 'matieres' cours.niveau.nom %}">Retour aux matières</a>
+</body>
+</html>

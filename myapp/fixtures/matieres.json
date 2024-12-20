@@ -1,0 +1,50 @@
+[
+    {
+        "model": "myapp.matiere",
+        "pk": 1,
+        "fields": {
+            "nom": "Mathématiques",
+            "niveau": 1
+        }
+    },
+    {
+        "model": "myapp.matiere",
+        "pk": 2,
+        "fields": {
+            "nom": "Physique",
+            "niveau": 1
+        }
+    },
+    {
+        "model": "myapp.matiere",
+        "pk": 3,
+        "fields": {
+            "nom": "Mathématiques",
+            "niveau": 2
+        }
+    },
+    {
+        "model": "myapp.matiere",
+        "pk": 4,
+        "fields": {
+            "nom": "Physique",
+            "niveau": 2
+        }
+    },
+    {
+        "model": "myapp.matiere",
+        "pk": 5,
+        "fields": {
+            "nom": "Mathématiques",
+            "niveau": 3
+        }
+    },
+    {
+        "model": "myapp.matiere",
+        "pk": 6,
+        "fields": {
+            "nom": "Physique",
+            "niveau": 3
+        }
+    }
+]

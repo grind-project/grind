@@ -1,0 +1,23 @@
+[
+    {
+        "model": "myapp.niveau",
+        "pk": 1,
+        "fields": {
+            "nom": "Seconde"
+        }
+    },
+    {
+        "model": "myapp.niveau",
+        "pk": 2,
+        "fields": {
+            "nom": "Première"
+        }
+    },
+    {
+        "model": "myapp.niveau",
+        "pk": 3,
+        "fields": {
+            "nom": "Terminale"
+        }
+    }
+]

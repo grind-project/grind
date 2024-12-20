@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choisir un niveau</title>
+</head>
+<body>
+    <h1>Sélectionnez votre niveau</h1>
+    <div class="niveaux-list">
+        {% for niveau in niveaux %}
+            <a href="{% url 'matieres' niveau.nom %}">
+                {{ niveau.nom }}
+            </a>
+        {% endfor %}
+    </div>
+    <a href="{% url 'accueil' %}">Retour à l'accueil</a>
+</body>
+</html>

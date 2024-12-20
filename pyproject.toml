@@ -48,6 +48,8 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
 
+[tool.ruff.per-file-ignores]
+"myapp/migrations/*.py" = ["RUF012"]
 
 [build-system]
 requires = ["poetry-core"]

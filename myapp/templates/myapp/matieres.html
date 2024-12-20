@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matières - {{ niveau }}</title>
+</head>
+<body>
+    <h1>Matières disponibles pour {{ niveau }}</h1>
+    <div class="matieres-list">
+        {% for matiere in matieres %}
+            <a href="{% url 'cours' niveau matiere.nom %}">
+                {{ matiere.nom }}
+            </a>
+        {% endfor %}
+    </div>
+    <a href="{% url 'cours' %}">Retour aux niveaux</a>
+</body>
+</html>
