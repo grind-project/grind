@@ -1,0 +1,36 @@
+### 1. Test Auth endpoints
+POST http://localhost:8000/auth/login/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+### 2. Test Documents List (non authentifié)
+GET http://localhost:8000/api/documents/
+
+### 3. Test Documents List (authentifié)
+GET http://localhost:8000/api/documents/
+Authorization: Token {{authToken}}
+
+### 4. Test Admin Interface
+GET http://localhost:8000/admin/
+
+### 5. Test API Root
+GET http://localhost:8000/api/
+
+### 6. Test Document Detail (remplacer {id} par un vrai ID)
+GET http://localhost:8000/api/documents/1/
+Authorization: Token {{authToken}}
+
+### 7. Test Document Create
+POST http://localhost:8000/api/documents/
+Content-Type: application/json
+Authorization: Token {{authToken}}
+
+{
+    "title": "Test Document",
+    "content": "Test Content",
+    "parent": null
+}
