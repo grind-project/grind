@@ -14,12 +14,15 @@ const initialState: AuthState = {
 };
 
 export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials: { username: string; password: string }) => {
-    const response = await api.post('/auth/login/', credentials);
-    return response.data.key;
-  }
-);
+    'auth/login',
+    async (credentials: { username: string; password: string }) => {
+      const response = await api.post('/auth/login/', credentials); // Remove /api prefix
+      const token = response.data.key;
+      localStorage.setItem('token', token);
+      api.defaults.headers.common['Authorization'] = `Token ${token}`;
+      return token;
+    }
+  );
 
 const authSlice = createSlice({
   name: 'auth',

@@ -1,77 +1,104 @@
 import React, { useState, ReactNode } from 'react';
 import { Menu, ChevronRight, ChevronDown, Book, Search } from 'lucide-react';
 
+const iconSize = 5;
+
+const GRADES = ['6ème', '5ème', '4ème', '3ème', '2nde', '1ère', 'Term'];
+const SUBJECTS = ['Mathématiques', 'Physique', 'Chimie', 'SVT', 'Technologie'];
+const CATEGORIES = ['Cours', 'Exercices', 'Examens'];
+
 interface GitBookLayoutProps {
   children: ReactNode;
 }
 
 const GitBookLayout: React.FC<GitBookLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({ docs: true });
+  const [expandedItems, setExpandedItems] = useState<{ [key: string]: boolean }>({});
+  const [activeGrade, setActiveGrade] = useState<string | null>(null);
+  const [activeSubject, setActiveSubject] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleItem = (key: string) => setExpandedItems(prev => ({ ...prev, [key]: !prev[key] }));
 
   return (
-    <div className="flex h-screen bg-white">
-      {/* Sidebar */}
-      <div className={`flex flex-col border-r ${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300`}>
-        {/* Sidebar Header */}
-        <div className="h-14 flex items-center px-4 border-b">
-          <Book className="h-6 w-6 text-blue-600" />
-          <span className="ml-2 font-semibold">Documentation</span>
-        </div>
-        
-        {/* Search Bar */}
-        <div className="p-4">
-          <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search docs..."
-              className="w-full pl-8 pr-4 py-2 border rounded-md bg-gray-50"
-            />
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto">
-          <div className="px-4 py-2">
-            <div className="mb-2">
-              <button
-                onClick={() => toggleItem('docs')}
-                className="flex items-center w-full px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+    <div className="flex flex-col h-screen bg-white overflow-x-hidden overscroll-x-none touch-pan-y">
+      {/* Top Header with Grade Selection */}
+      <div className="h-16 flex justify-end items-center px-10 relative">        
+        <div className="absolute bottom-[-1px] left-0 right-0 h-[1px] bg-[rgba(0,0,0,0.05)]"></div>
+        <div className="flex items-center space-x-4">
+          <div className="flex space-x-2">
+            {GRADES.map(grade => (
+              <div 
+                key={grade} 
+                className="relative group"
               >
-                {expandedItems.docs ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                <span className="ml-2">Getting Started</span>
-              </button>
-              {expandedItems.docs && (
-                <div className="ml-4 mt-1">
-                  <a href="#" className="block px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Introduction</a>
-                  <a href="#" className="block px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Quick Start</a>
-                  <a href="#" className="block px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Installation</a>
+                <button
+                  className={`
+                    min-w-[72px]
+                    w-fit
+                    px-3 
+                    py-1 
+                    rounded-md 
+                    text-base
+                    text-center
+                    border-none 
+                    flex
+                    items-center
+                    justify-center
+                    gap-0.5
+                    ${
+                      activeGrade === grade 
+                        ? 'text-[#4d535f] font-medium' 
+                        : 'text-[#585E6B] hover:text-[#000000]'
+                    }
+                  `}
+                >
+                  {grade}
+                  <ChevronDown 
+                    className={`!w-4 !h-4 flex-shrink-0 stroke-1 mt-1 opacity-60 hover:text-[#000000] transition-transform duration-75 group-hover:rotate-180`}
+                  />
+                </button>
+                
+                {/* Zone invisible pour faciliter le hover */}
+                <div className="absolute h-2 w-full left-0 top-full" />
+                
+                <div 
+                  className="opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-0 absolute z-50 top-[calc(100%+4px)] left-3 w-48 bg-white rounded-lg shadow-lg border border-gray-100 hover:opacity-100 hover:visible p-2"
+                >
+                  {SUBJECTS.map(subject => (
+                    <button
+                      key={subject}
+                      onClick={() => {
+                        setActiveGrade(grade);
+                        setActiveSubject(subject);
+                      }}
+                      className="w-full text-left px-3 py-1.5 text-[14px] text-black hover:bg-[#eeeeee] rounded-md"
+                      >
+                      {subject}
+                    </button>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
-        </nav>
-      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="h-14 border-b flex items-center px-4">
-          <button onClick={toggleSidebar} className="p-2 hover:bg-gray-100 rounded-md">
-            <Menu className="h-5 w-5" />
+          <button 
+            className="w-[225px] flex items-center space-x-0 text-[#585E6B] hover:text-[#000000] border-[0.5px] border-[rgba(0,0,0,0.08)] rounded-lg px-3 py-[6px] min-h-[34px] shadow-[0_1px_2px_-1px_rgba(0,0,0,0.12)] hover:shadow-[0_2px_4px_-1px_rgba(0,0,0,0.2)] transform-gpu will-change-transform transition-transform duration-100 hover:scale-[1.02] group focus-visible:outline-none focus:outline-none focus:ring-0"
+            style={{ 
+              WebkitTapHighlightColor: 'transparent',
+              outline: '2px solid transparent',
+              outlineOffset: '2px'
+            }}
+          >
+            <Search className="w-5 h-5 text-[#000000] group-hover:text-[#000000] stroke-1" />
+            <div className="flex justify-between items-center w-full ml-2">
+              <span className="text-[15px] text-[#585E6B] font-[450] opacity-90 group-hover:text-[#000000]">&nbsp;&nbsp;Search...</span>
+              <span className="text-xs text-[#585E6B] opacity-95">Ctrl + K</span>
+            </div>          
           </button>
-        </header>
-
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto p-8">
-          <div className="max-w-3xl mx-auto">
-            {children}
-          </div>
-        </main>
+        </div>
       </div>
     </div>
   );
