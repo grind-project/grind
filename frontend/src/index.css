@@ -185,3 +185,31 @@ body {
 .sidebar::-webkit-scrollbar-thumb:active {
   background-color: rgba(230, 230, 230, 0.7); /* Rendre le gris un peu plus clair ici */
 }
+
+/* Styles pour la scrollbar principale */
+.main-content {
+  overflow-y: scroll;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: rgba(240, 240, 240, 0.7);
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: rgba(210, 210, 210, 0.7);
+  border-radius: 25px;
+  border: 0;
+  background-clip: padding-box;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(220, 220, 220, 0.7);
+}
+
+.main-content::-webkit-scrollbar-thumb:active {
+  background-color: rgba(230, 230, 230, 0.7);
+}

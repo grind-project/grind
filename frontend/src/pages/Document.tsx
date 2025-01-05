@@ -179,17 +179,20 @@ const DocumentView = () => {
    <div className="flex h-[calc(100vh-8rem)]">
      {/* Sidebar de navigation */}
      {document && (
-       <div className="w-80 h-full sidebar">
-         {renderTOC()}
+       <div className="w-80 relative"> {/* Supprimé h-full et ajouté relative */}
+         <div className="absolute -top-0.5 bottom-0 left-0 right-0 overflow-y-auto sidebar"> {/* Ajouté les mêmes classes que main-content */}
+           {renderTOC()}
+         </div>
        </div>
      )}
 
      {/* Wrapper pour le contenu principal */}
      <div className="flex-1 relative">
        {/* Container avec scrollbar */}
-       <div className="absolute inset-0 overflow-y-auto">
+       <div className="absolute -top-0.5 bottom-0 left-0 right-0 overflow-y-auto main-content"
+       style={{ bottom: '-15px' }}>
          {/* Container intérieur avec marges */}
-         <div className="max-w-[calc(100%-19rem)]"> {/* Ajouter max-width pour forcer le retour à la ligne */}
+         <div className="max-w-[calc(100%-19rem)]">
            <div className="mx-8">
              <div className="ml-14">
                {error ? (
