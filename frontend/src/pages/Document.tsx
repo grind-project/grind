@@ -102,7 +102,7 @@ const DocumentView = () => {
  }, [id]);
 
  const renderTOC = () => (
-   <nav className="w-64 pr-4">
+   <nav className="w-64 pr-4 pl-7 pt-7"> {/* Ajout de pt-7 pour le padding en haut */}
      <ul className="space-y-2">
        {toc.map(item => (
          <li key={item.id}>
