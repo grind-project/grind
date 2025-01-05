@@ -1,5 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 import { Menu, ChevronRight, ChevronDown, Book, Search, BookOpen, Image, PenLine } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { getDocuments } from '../api/documents';  // Le fichier où la fonction est réellement définie
 
 const GRADES = ['6ème', '5ème', '4ème', '3ème', '2nde', '1ère', 'Term'];
 const SUBJECTS = ['Mathématiques', 'Physique', 'Chimie', 'SVT', 'Technologie'];
@@ -21,6 +23,40 @@ const GitBookLayout: React.FC<GitBookLayoutProps> = ({ children }) => {
   const [activeGrade, setActiveGrade] = useState<string | null>(null);
   const [activeSubject, setActiveSubject] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = async (grade: string | null, subject: string | null, category: string) => {
+    try {
+      // Ajout de logs pour debug
+      console.log('Searching for:', { grade, subject, category });
+      const documents = await getDocuments();
+      console.log('All documents:', documents);
+
+      // Vérification plus stricte
+      const document = documents.find(doc => {
+        console.log('Checking document:', {
+          docGrade: doc.parent?.parent?.title,
+          docSubject: doc.parent?.title,
+          docCategory: doc.title,
+          matches: {
+            grade: doc.parent?.parent?.title === grade,
+            subject: doc.parent?.title === subject,
+            category: doc.title === category
+          }
+        });
+        return doc.parent?.parent?.title === grade && 
+               doc.parent?.title === subject && 
+               doc.title === category;
+      });
+
+      console.log('Found document:', document);
+      if (document) {
+        navigate(`/documents/${document.id}`);
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen bg-white overflow-x-hidden overscroll-x-none touch-pan-y">
@@ -67,6 +103,7 @@ const GitBookLayout: React.FC<GitBookLayoutProps> = ({ children }) => {
                         onClick={() => {
                           setActiveGrade(grade);
                           setActiveSubject(subject);
+                          setActiveCategory(null);  // Réinitialiser la catégorie
                         }}
                         className="w-full text-left px-3 py-1.5 text-[14px] text-black hover:bg-[#eeeeee] rounded-md"
                       >
@@ -103,7 +140,7 @@ const GitBookLayout: React.FC<GitBookLayoutProps> = ({ children }) => {
               return (
                 <button
                   key={category}
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => handleCategoryClick(activeGrade!, activeSubject!, category)}
                   className={`
                     px-3 
                     pt-[14px]

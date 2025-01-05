@@ -1,13 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api/config';
-
-interface Document {
-  id: number;
-  title: string;
-  content: string;
-  parent: number | null;
-  children: Document[];
-}
+import { Document } from '../../types/Document';  // Importez l'interface unique
 
 interface DocumentsState {
   items: Document[];

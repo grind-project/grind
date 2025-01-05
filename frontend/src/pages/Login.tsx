@@ -13,7 +13,7 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(login({ username, password })).unwrap();
+      await dispatch(login({ username, password }));
       navigate('/');
     } catch (error) {
       console.error('Failed to login:', error);

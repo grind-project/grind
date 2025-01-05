@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { api } from '../../api/config';
+import { authApi } from '../../api/config';  // Utilisez authApi au lieu de api
 
 interface AuthState {
   token: string | null;
@@ -14,15 +14,14 @@ const initialState: AuthState = {
 };
 
 export const login = createAsyncThunk(
-    'auth/login',
-    async (credentials: { username: string; password: string }) => {
-      const response = await api.post('/auth/login/', credentials); // Remove /api prefix
-      const token = response.data.key;
-      localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Token ${token}`;
-      return token;
-    }
-  );
+  'auth/login',
+  async (credentials: { username: string; password: string }) => {
+    const response = await authApi.post('/auth/login/', credentials);
+    const token = response.data.key;
+    localStorage.setItem('token', token); // Stockage du token
+    return token;
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',

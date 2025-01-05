@@ -6,5 +6,5 @@ from .serializers import DocumentSerializer
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
-    queryset = Document.objects.filter(parent=None)  # Get only root documents
+    queryset = Document.objects.all()  # Retourne tous les documents
     serializer_class = DocumentSerializer

@@ -1,24 +1,25 @@
 import axios from 'axios';
 
-export const api = axios.create({
-  baseURL: 'http://localhost:8000', // Base URL without /api
+// Créer une instance axios pour l'authentification sans intercepteur
+export const authApi = axios.create({
+  baseURL: 'http://localhost:8000',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   }
 });
 
-// Ajoutez un intercepteur pour les requêtes
+// Instance principale avec l'intercepteur pour les autres requêtes
+export const api = axios.create({
+  baseURL: 'http://localhost:8000',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
+
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Token ${token}`;
-    }
-    return config;
-  }, (error) => {
-    return Promise.reject(error);
-  });
-  
-const token = localStorage.getItem('token');
-if (token) {
-  api.defaults.headers.common['Authorization'] = `Token ${token}`;
-}
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Token ${token}`;
+  }
+  return config;
+});
