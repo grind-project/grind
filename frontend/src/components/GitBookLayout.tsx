@@ -27,12 +27,13 @@ const GitBookLayout: React.FC<GitBookLayoutProps> = ({ children }) => {
 
   const handleCategoryClick = async (grade: string | null, subject: string | null, category: string) => {
     try {
-      // Ajout de logs pour debug
+      // Mise à jour de la catégorie active
+      setActiveCategory(category);  // Ajout de cette ligne
+
       console.log('Searching for:', { grade, subject, category });
       const documents = await getDocuments();
       console.log('All documents:', documents);
 
-      // Vérification plus stricte
       const document = documents.find(doc => {
         console.log('Checking document:', {
           docGrade: doc.parent?.parent?.title,
