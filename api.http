@@ -14,15 +14,16 @@ GET http://localhost:8000/api/documents/
 GET http://localhost:8000/api/documents/
 Authorization: Token 73bc8d74b487c775294711893f19c50a9b9131e8
 
+### 6. Test Document Detail
+GET http://localhost:8000/api/documents/425/
+Authorization: Token 73bc8d74b487c775294711893f19c50a9b9131e8
+
 ### 4. Test Admin Interface
 GET http://localhost:8000/admin/
 
 ### 5. Test API Root
 GET http://localhost:8000/api/
 
-### 6. Test Document Detail
-GET http://localhost:8000/api/documents/129/
-Authorization: Token 73bc8d74b487c775294711893f19c50a9b9131e8
 
 ### 7. Test Document Create
 POST http://localhost:8000/api/documents/

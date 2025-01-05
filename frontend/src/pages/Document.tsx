@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Document } from '../api/documents';
 import { api } from '../api/config';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
 
@@ -29,63 +31,77 @@ export default function DocumentView() {
     const fetchDocument = async () => {
       if (!id) return;
       try {
-        const response = await api.get(`/api/documents/${id}`);
-        setDocument(response.data);
-      } catch (error) {
-        console.error('Error fetching document:', error);
-        setError('Unable to load document');
+        // Debug logs
+        const token = localStorage.getItem('token');
+        console.log('Token:', token);
+
+        const response = await api.get(`/api/documents/${id}`, {
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+        });
+        
+        // Debug response
+        console.log('Document response:', response);
+        
+        if (response.data) {
+          setDocument(response.data);
+        } else {
+          setError('Document not found');
+        }
+      } catch (error: any) {
+        console.error('Error details:', error.response || error);
+        if (error.response?.status === 401) {
+          setError('Authentication required - Please login');
+        } else if (error.response?.status === 404) {
+          setError('Document not found');
+        } else {
+          setError(`Unable to load document: ${error.message}`);
+        }
       }
     };
     fetchDocument();
   }, [id]);
 
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!document) return <div className="animate-pulse">Loading...</div>;
+  if (error) return (
+    <div className="p-4">
+      <div className="text-red-500 font-semibold">{error}</div>
+    </div>
+  );
+  
+  if (!document) return (
+    <div className="p-4">
+      <div className="animate-pulse">Loading...</div>
+    </div>
+  );
 
   const renderContent = () => {
-    const lines = document!.content.split('\n');
-    const result = [];
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      
-      // Équation en block
-      if (line.trim().startsWith('$$')) {
-        let mathContent = '';
-        let j = i + 1;
-        
-        // Cherche la fin de l'équation
-        while (j < lines.length) {
-          if (lines[j].trim().endsWith('$$')) {
-            mathContent = lines.slice(i + 1, j).join('\n');
-            break;
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          // Titres personnalisés
+          h1: ({children}) => <h1 className="text-3xl font-bold mt-8 mb-4">{children}</h1>,
+          h2: ({children}) => <h2 className="text-2xl font-semibold mt-6 mb-3">{children}</h2>,
+          h3: ({children}) => <h3 className="text-xl font-medium mt-4 mb-2">{children}</h3>,
+          // Gestion des équations
+          p: ({children, ...props}) => {
+            if (typeof children === 'string' && children.includes('$')) {
+              return parseInlineMath(children);
+            }
+            return <p {...props}>{children}</p>;
+          },
+          code: ({className, children}) => {
+            if (className === 'language-math') {
+              return <BlockMath>{children as string}</BlockMath>;
+            }
+            return <code className={className}>{children}</code>;
           }
-          j++;
-        }
-        
-        // Ajoute l'équation et saute les lignes utilisées
-        result.push(
-          <div key={i} className="my-4">
-            <BlockMath>{mathContent.trim()}</BlockMath>
-          </div>
-        );
-        i = j; // Saute au-delà de l'équation
-        continue;
-      }
-      
-      // Équation inline
-      if (line.includes('$')) {
-        result.push(parseInlineMath(line));
-        continue;
-      }
-      
-      // Texte normal
-      if (line.trim()) {
-        result.push(<p key={i}>{line}</p>);
-      }
-    }
-    
-    return result;
+        }}
+      >
+        {document?.content || ''}
+      </ReactMarkdown>
+    );
   };
 
   return (
