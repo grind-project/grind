@@ -24,8 +24,6 @@ a:hover {
 
 body {
   margin: 0;
-  /* display: flex;
-  place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -52,8 +50,6 @@ h1 {
 @tailwind components;
 @tailwind utilities;
 
-
-/* Add after existing styles */
 html, 
 body {
   overscroll-behavior: none;
@@ -61,8 +57,131 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Commenter ou ajuster ces styles globaux */
 * {
-  overscroll-behavior-x: none;
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ajuster la classe `hover:overflow-y-scroll` si nécessaire */
+.hover\:overflow-y-scroll:hover {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+  overflow-y: auto !important;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar {
+  width: 8px !important; /* Réduire la largeur ici */
+  display: block !important;
+  height: 100vh;
+  background: transparent !important;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-track {
+  background: rgba(240, 240, 240, 0.7); /* Rendre le rail légèrement plus foncé ici */
+  margin: 0;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(210, 210, 210, 0.7); /* Rendre le gris un peu plus clair ici */
+  border-radius: 25px; /* Arrondir les extrémités */
+  min-height: 50px;
+  border: 0; /* Supprimer la bordure */
+  background-clip: padding-box;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:start:decrement,
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:end:increment {
+  display: none;
+  height: 0;
+  background-color: transparent;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none !important;
+}
+
+.hover\:overflow-y-scroll {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+
+* {
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button,
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:vertical:start,
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:vertical:end,
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:vertical:start:decrement,
+.hover\:overflow-y-scroll:hover::-webkit-scrollbar-button:vertical:end:increment {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+@supports (-ms-ime-align: auto) {
+  .hover\:overflow-y-scroll:hover::-webkit-scrollbar {
+    width: 8px !important; /* Réduire la largeur ici */
+  }
+  
+  .hover\:overflow-y-scroll:hover::-webkit-scrollbar-thumb {
+    min-height: 50px;
+    border: 0; /* Supprimer la bordure */
+    background-color: rgba(210, 210, 210, 0.7); /* Rendre le gris un peu plus clair ici */
+    border-radius: 25px; /* Arrondir les extrémités */
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .hover\:overflow-y-scroll:hover::-webkit-scrollbar-thumb {
+    background: rgba(220, 220, 220, 0.7) !important; /* Rendre le gris un peu plus clair ici */
+  }
+}
+
+/* Styles globaux pour les scrollbars */
+.sidebar {
+  overflow-y: scroll;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0; /* Cache la scrollbar par défaut */
+}
+
+.sidebar:hover::-webkit-scrollbar {
+  width: 8px; /* Réduire la largeur ici */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(240, 240, 240, 0.7); /* Rendre le rail légèrement plus foncé ici */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(210, 210, 210, 0.7); /* Rendre le gris un peu plus clair ici */
+  border-radius: 25px; /* Arrondir les extrémités */
+  border: 0; /* Supprimer la bordure */
+  background-clip: padding-box;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(220, 220, 220, 0.7); /* Rendre le gris un peu plus clair ici */
+}
+
+.sidebar::-webkit-scrollbar-thumb:active {
+  background-color: rgba(230, 230, 230, 0.7); /* Rendre le gris un peu plus clair ici */
 }
