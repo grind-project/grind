@@ -102,15 +102,19 @@ const DocumentView = () => {
  }, [id]);
 
  const renderTOC = () => (
-   <nav className="w-64 pr-4 pl-7 pt-7"> {/* Ajout de pt-7 pour le padding en haut */}
-     <ul className="space-y-2">
+   <nav className="w-64 pt-7">
+     <ul className="space-y-2 px-3">
        {toc.map(item => (
          <li key={item.id}>
            <a 
              href={`#${item.id}`}
-             className="text-gray-700 hover:text-gray-900"
+             className="text-gray-700 hover:text-[#404040] block py-1.5 -mx-3 px-4" // Même padding que les sous-titres
            >
-             {item.title}
+             <div className="flex">
+               <div className="pl-4 w-full"> {/* Added div with full width to maintain padding */}
+                 {item.title}
+               </div>
+             </div>
            </a>
            {item.children.length > 0 && (
              <ul className="pl-4 mt-2 space-y-2">
@@ -118,7 +122,7 @@ const DocumentView = () => {
                  <li key={child.id}>
                    <a 
                      href={`#${child.id}`}
-                     className="text-gray-600 hover:text-gray-800"
+                     className="text-gray-600 hover:text-[#404040] hover:bg-[#f5f5f5] block py-1.5 -mx-3 px-4 rounded-md"
                    >
                      {child.title}
                    </a>
@@ -128,7 +132,7 @@ const DocumentView = () => {
                          <li key={subChild.id}>
                            <a 
                              href={`#${subChild.id}`}
-                             className="text-gray-500 hover:text-gray-700 text-sm"
+                             className="text-gray-600 hover:text-[#404040] hover:bg-[#f5f5f5] block py-1.5 -mx-3 px-4 rounded-md text-sm" // Modifié ici
                            >
                              {subChild.title}
                            </a>
@@ -180,7 +184,8 @@ const DocumentView = () => {
      {/* Sidebar de navigation */}
      {document && (
        <div className="w-80 relative"> {/* Supprimé h-full et ajouté relative */}
-         <div className="absolute -top-0.5 bottom-0 left-0 right-0 overflow-y-auto sidebar"> {/* Ajouté les mêmes classes que main-content */}
+         <div className="absolute -top-0.5 bottom-0 left-0 right-0 overflow-y-auto sidebar"
+         style={{ bottom: '-15px'}}> {/* Ajouté les mêmes classes que main-content */}
            {renderTOC()}
          </div>
        </div>
